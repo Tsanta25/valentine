@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useRef, useState, useEffect, CSSProperties } from "react";
+import { motion } from "framer-motion";
 
 type Heart = {
   id: number;
@@ -58,17 +58,11 @@ export default function Home() {
 
       {!accepted && (
         <>
-          <h1
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-10 text-center"
-            style={styles.title}
-          >
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-10 text-center" style={styles.title}>
             Would you be my Valentine's Day forever and ever Baby? 💘
           </h1>
 
-          <div
-            className="flex flex-col sm:flex-row gap-5 sm:gap-10 justify-center items-center"
-            style={styles.buttons}
-          >
+          <div className="flex flex-col sm:flex-row gap-5 sm:gap-10 justify-center items-center" style={styles.buttons}>
             <motion.button
               className="px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl rounded-xl bg-pink-500 text-white"
               style={styles.yesButton}
@@ -106,21 +100,20 @@ export default function Home() {
             },
           }}
         >
-          {[
-            "Thank", "You", "My", "love", "and", "I", "love", "You", "❤️",
-            "Thank", "You", "For", "Me"
-          ].map((word, index) => (
-            <motion.span
-              key={index}
-              className="mx-1"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0 },
-              }}
-            >
-              {word}
-            </motion.span>
-          ))}
+          {["Thank", "You", "My", "love", "and", "I", "love", "You", "❤️", "Thank", "You", "For", "Me"].map(
+            (word, index) => (
+              <motion.span
+                key={index}
+                className="mx-1"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                {word}
+              </motion.span>
+            )
+          )}
         </motion.h1>
       )}
 
@@ -140,7 +133,7 @@ export default function Home() {
   );
 }
 
-const styles = {
+const styles: { [key: string]: CSSProperties } = {
   container: {
     height: "100vh",
     display: "flex",
