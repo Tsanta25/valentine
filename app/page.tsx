@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+<<<<<<< HEAD
 // import { useRef, useState, useEffect } from "react";
 import { useRef, useState, useEffect, CSSProperties } from "react";
 
@@ -10,16 +11,25 @@ type Heart = {
   left: number;
   duration: number;
 };
+=======
+import { useRef, useState, useEffect } from "react";
+>>>>>>> 1e23f5070f8c94298c7a3d56a01d5d5feb2b4f03
 
 export default function Home() {
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
   const [yesScale, setYesScale] = useState(1);
+<<<<<<< HEAD
   // const [hearts, setHearts] = useState([]);
   const [hearts, setHearts] = useState<Heart[]>([]);
   const [accepted, setAccepted] = useState(false);
   // const audioRef = useRef(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+=======
+  const [hearts, setHearts] = useState([]);
+  const [accepted, setAccepted] = useState(false);
+  const audioRef = useRef(null);
+>>>>>>> 1e23f5070f8c94298c7a3d56a01d5d5feb2b4f03
 
   const moveNoButton = () => {
     const randomX = Math.floor(Math.random() * 400) - 200;
@@ -27,6 +37,7 @@ export default function Home() {
     setNoPosition({ x: randomX, y: randomY });
   };
 
+<<<<<<< HEAD
   // const createHearts = () => {
   //   let newHearts = [];
   //   for (let i = 0; i < 30; i++) {
@@ -67,6 +78,27 @@ export default function Home() {
     audioRef.current.play(); // TypeScript comprend que play() existe
   }
 };
+=======
+  const createHearts = () => {
+    let newHearts = [];
+    for (let i = 0; i < 30; i++) {
+      newHearts.push({
+        id: i,
+        left: Math.random() * 100,
+        duration: Math.random() * 2 + 3,
+      });
+    }
+    setHearts(newHearts);
+  };
+
+  const handleYesClick = () => {
+    setAccepted(true);
+    createHearts();
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
+>>>>>>> 1e23f5070f8c94298c7a3d56a01d5d5feb2b4f03
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -165,7 +197,11 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+<<<<<<< HEAD
     container: "column",
+=======
+    flexDirection: "column",
+>>>>>>> 1e23f5070f8c94298c7a3d56a01d5d5feb2b4f03
     fontFamily: "Arial, sans-serif",
     background: "radial-gradient(circle, #ffe6f0, #ffb3c6)",
     overflow: "hidden",
@@ -191,6 +227,10 @@ const styles = {
     padding: "15px 30px",
     fontSize: "18px",
     borderRadius: "10px",
+<<<<<<< HEAD
+=======
+    borderRadius: "10px",
+>>>>>>> 1e23f5070f8c94298c7a3d56a01d5d5feb2b4f03
     border: "none",
     backgroundColor: "#333",
     color: "white",
