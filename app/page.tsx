@@ -1,65 +1,172 @@
-import Image from "next/image";
+"use client";
+
+import { motion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 
 export default function Home() {
+  const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
+  const [yesScale, setYesScale] = useState(1);
+  const [hearts, setHearts] = useState([]);
+  const [accepted, setAccepted] = useState(false);
+  const audioRef = useRef(null);
+
+  const moveNoButton = () => {
+    const randomX = Math.floor(Math.random() * 400) - 200;
+    const randomY = Math.floor(Math.random() * 400) - 200;
+    setNoPosition({ x: randomX, y: randomY });
+  };
+
+  const createHearts = () => {
+    let newHearts = [];
+    for (let i = 0; i < 30; i++) {
+      newHearts.push({
+        id: i,
+        left: Math.random() * 100,
+        duration: Math.random() * 2 + 3,
+      });
+    }
+    setHearts(newHearts);
+  };
+
+  const handleYesClick = () => {
+    setAccepted(true);
+    createHearts();
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      createHearts();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div  className="h-screen w-screen flex flex-col justify-center items-center bg-gradient-to-br from-pink-200 to-pink-400 overflow-hidden"
+     style={styles.container}>
+      <audio ref={audioRef} src="/music.mp3" />
+
+      {!accepted && (
+        <>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-10 text-center" 
+          style={styles.title}>Would you be my Valentine's Day forever and ever Baby? 💘</h1>
+
+          <div className="flex flex-col sm:flex-row gap-5 sm:gap-10 justify-center items-center" style={styles.buttons}>
+            <motion.button
+            className="px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl rounded-xl bg-pink-500 text-white"
+              style={styles.yesButton}
+              animate={{ scale: yesScale }}
+              onMouseEnter={() => setYesScale(1.4)}
+              onMouseLeave={() => setYesScale(1)}
+              onClick={handleYesClick}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              YES ❤️
+            </motion.button>
+
+            <motion.button
+            className="px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl rounded-xl bg-gray-800 text-white"
+              style={styles.noButton}
+              animate={{ x: noPosition.x, y: noPosition.y }}
+              transition={{ type: "spring", stiffness: 300 }}
+              onMouseEnter={moveNoButton}
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+              NO 😈
+            </motion.button>
+          </div>
+        </>
+      )}
+
+    {accepted && (
+  <motion.h1
+    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-red-600 text-center flex flex-wrap justify-center"
+    initial="hidden"
+    animate="visible"
+    variants={{
+      visible: {
+        transition: {
+          staggerChildren: 0.3, // chaque mot apparait avec 0.3s de décalage
+        },
+      },
+    }}
+  >
+    {[
+      "Thank", "You", "My", "love", "and", "I", "love", "You", "❤️",
+      "Thank", "You", "For", "Me"
+    ].map((word, index) => (
+      <motion.span
+        key={index}
+        className="mx-1"
+        variants={{
+          hidden: { opacity: 0, y: 20 },
+          visible: { opacity: 1, y: 0 },
+        }}
+      >
+        {word}
+      </motion.span>
+    ))}
+  </motion.h1>
+)}
+
+
+      {hearts.map((heart) => (
+        <motion.div
+          key={heart.id}
+          initial={{ y: -50, opacity: 1 }}
+          animate={{ y: "110vh", opacity: 0 }}
+          transition={{ duration: heart.duration }}
+          className="fixed text-xl sm:text-2xl pointer-events-none"
+          style={{ left: `${heart.left}%`
+          }}
+        >
+          ✨
+        </motion.div>
+      ))}
     </div>
   );
 }
+
+const styles = {
+  container: {
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    fontFamily: "Arial, sans-serif",
+    background: "radial-gradient(circle, #ffe6f0, #ffb3c6)",
+    overflow: "hidden",
+  },
+  title: {
+    fontSize: "2.5rem",
+    marginBottom: "40px",
+  },
+  buttons: {
+    display: "flex",
+    gap: "20px",
+  },
+  yesButton: {
+    padding: "15px 30px",
+    fontSize: "18px",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#ff4d6d",
+    color: "white",
+    cursor: "pointer",
+  },
+  noButton: {
+    padding: "15px 30px",
+    fontSize: "18px",
+    borderRadius: "10px",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#333",
+    color: "white",
+    cursor: "pointer",
+  },
+  finalMessage: {
+    fontSize: "3rem",
+    color: "#ff3366",
+  },
+};
